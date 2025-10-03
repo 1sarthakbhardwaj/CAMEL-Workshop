@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Toolkit - CAMEL-AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="detail-header">
+        <div class="container">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Overview
+            </a>
+            <h1 class="detail-title">📄 Document Toolkit</h1>
+            <p class="detail-subtitle">
+                Process and extract content from PDF, Word, Excel, PowerPoint, images, and more
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="detail-content">
+            <div class="content-section">
+                <h2>✨ Overview</h2>
+                <p>
+                    The Document Toolkit in CAMEL-AI provides comprehensive document processing capabilities, 
+                    combining the power of multiple toolkits including FileToolkit and MinerU Toolkit. 
+                    Extract text, tables, formulas, and images from virtually any document format with OCR support.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2>📑 Supported Formats</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <h4>📄 PDF Files</h4>
+                        <p>Extract text, tables, formulas with advanced OCR</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📝 Word Documents</h4>
+                        <p>Process .doc and .docx files</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📊 Excel Spreadsheets</h4>
+                        <p>Read and write .xls, .xlsx, .csv files</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📊 PowerPoint</h4>
+                        <p>Extract content from .ppt and .pptx</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🖼️ Images</h4>
+                        <p>OCR for .jpg, .jpeg, .png with text extraction</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🌐 HTML</h4>
+                        <p>Parse and extract from HTML files</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📚 EPUB</h4>
+                        <p>Extract content from e-books</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📦 ZIP Archives</h4>
+                        <p>Process files within archives</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🎵 Audio Files</h4>
+                        <p>Transcribe .mp3, .wav files</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📋 Text Files</h4>
+                        <p>Process .txt, .json, .xml, .csv</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🛠️ Main Toolkits</h2>
+                
+                <h3>1. FileToolkit</h3>
+                <p>General-purpose document processing with MarkItDown integration</p>
+                <div class="code-block">
+<pre>from camel.toolkits import FileToolkit
+
+toolkit = FileToolkit()
+
+# Read single file
+content = toolkit.read_file("document.pdf")
+
+# Read multiple files
+contents = toolkit.read_file([
+    "doc1.pdf",
+    "spreadsheet.xlsx",
+    "presentation.pptx"
+])
+
+# Each returns markdown-formatted content
+for path, text in contents.items():
+    print(f"{path}:\n{text}\n")</pre>
+                </div>
+
+                <h3>2. MinerU Toolkit</h3>
+                <p>Advanced document processing with OCR, formula, and table recognition</p>
+                <div class="code-block">
+<pre>from camel.toolkits import MinerUToolkit
+
+toolkit = MinerUToolkit(
+    api_key="your_api_key",
+    is_ocr=True,            # Enable OCR
+    enable_formula=True,     # Recognize formulas
+    enable_table=True,       # Detect tables
+    language="en"
+)
+
+# Process from URL
+result = toolkit.process_url(
+    url="https://example.com/document.pdf",
+    output_format="markdown"
+)
+
+# Process local file
+result = toolkit.process_file(
+    file_path="research_paper.pdf",
+    output_format="markdown"
+)</pre>
+                </div>
+
+                <h3>3. Excel Toolkit</h3>
+                <p>Specialized Excel file operations</p>
+                <div class="code-block">
+<pre>from camel.toolkits import ExcelToolkit
+
+toolkit = ExcelToolkit()
+
+# Read Excel file
+df = toolkit.read_excel("data.xlsx", sheet_name="Sheet1")
+
+# Write to Excel
+toolkit.write_excel(
+    data=df,
+    file_path="output.xlsx",
+    sheet_name="Results"
+)
+
+# Perform operations
+summary = toolkit.analyze_data(df)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🚀 Quick Start Examples</h2>
+                
+                <h3>Extract Text from PDF</h3>
+                <div class="code-block">
+<pre>from camel.toolkits import FileToolkit
+
+toolkit = FileToolkit()
+
+# Simple extraction
+text = toolkit.read_file("document.pdf")
+print(text)
+
+# With OCR for scanned documents
+from camel.toolkits import MinerUToolkit
+
+ocr_toolkit = MinerUToolkit(is_ocr=True)
+result = ocr_toolkit.process_file("scanned_doc.pdf")
+print(result['markdown'])</pre>
+                </div>
+
+                <h3>Process Multiple Document Types</h3>
+                <div class="code-block">
+<pre>from camel.agents import ChatAgent
+from camel.toolkits import FileToolkit
+
+toolkit = FileToolkit()
+agent = ChatAgent(
+    system_message="You are a document processing assistant.",
+    tools=toolkit.get_tools()
+)
+
+task = """
+Read the following documents and create a summary:
+1. report.pdf
+2. data.xlsx
+3. presentation.pptx
+"""
+
+response = agent.step(task)
+print(response.msgs[0].content)</pre>
+                </div>
+
+                <h3>Extract Tables from PDF</h3>
+                <div class="code-block">
+<pre>from camel.toolkits import MinerUToolkit
+
+toolkit = MinerUToolkit(
+    enable_table=True,
+    is_ocr=True
+)
+
+result = toolkit.process_file(
+    "financial_report.pdf",
+    output_format="markdown"
+)
+
+# Tables are preserved in markdown format
+print(result['markdown'])</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🎯 Key Features</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <h4>🔍 Advanced OCR</h4>
+                        <p>Extract text from images and scanned documents with high accuracy</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📐 Formula Recognition</h4>
+                        <p>Detect and preserve mathematical formulas in LaTeX format</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📊 Table Detection</h4>
+                        <p>Automatically identify and structure tables from documents</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🎨 Layout Analysis</h4>
+                        <p>Preserve document structure and formatting</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🌍 Multi-language</h4>
+                        <p>Support for multiple languages including Chinese</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>⚡ Batch Processing</h4>
+                        <p>Process multiple documents efficiently</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📝 Markdown Output</h4>
+                        <p>Convert to clean, structured markdown format</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔗 URL Support</h4>
+                        <p>Process documents directly from URLs</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>💡 Use Cases</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <h4>📚 Document Analysis</h4>
+                        <p>Extract and analyze content from research papers, reports</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📊 Data Extraction</h4>
+                        <p>Pull structured data from forms, invoices, receipts</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔍 Content Search</h4>
+                        <p>Build searchable document databases</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📝 Document Summarization</h4>
+                        <p>Create summaries of long documents</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🌐 Document Translation</h4>
+                        <p>Extract text for translation workflows</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🤖 RAG Systems</h4>
+                        <p>Prepare documents for retrieval-augmented generation</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🔧 MinerU Configuration</h2>
+                <div class="code-block">
+<pre>MinerUToolkit(
+    api_key="your_api_key",
+    api_url="https://mineru.net/api/v4",
+    
+    # OCR settings
+    is_ocr=False,           # Enable/disable OCR
+    
+    # Feature toggles
+    enable_formula=False,   # Math formula recognition
+    enable_table=True,      # Table detection
+    
+    # Model selection
+    layout_model="doclayout_yolo",  # or "layoutlmv3"
+    
+    # Language
+    language="en",          # or "zh" for Chinese
+    
+    # Processing
+    wait=True,              # Wait for completion
+    timeout=300             # Timeout in seconds
+)</pre>
+                </div>
+
+                <h3>Limits</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Maximum file size: 200MB per file</li>
+                    <li>Maximum pages: 600 pages per file</li>
+                    <li>Daily quota: 2000 pages for high-priority parsing</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>🎓 Best Practices</h2>
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>1. Choose the Right Tool</h4>
+                    <p><strong>FileToolkit:</strong> General-purpose, fast, good for most documents</p>
+                    <p><strong>MinerU:</strong> Advanced OCR, formulas, complex layouts</p>
+                    <p><strong>ExcelToolkit:</strong> Specialized Excel operations</p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>2. Enable OCR When Needed</h4>
+                    <p>Only enable OCR for scanned documents to save processing time</p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>3. Process in Batches</h4>
+                    <p>Use batch processing for multiple files to improve efficiency</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>4. Handle Large Files</h4>
+                    <p>Split large PDFs before processing if they exceed limits</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>📚 Additional Resources</h2>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>💻 <a href="https://github.com/camel-ai/camel/blob/master/camel/toolkits/file_toolkit.py" target="_blank">FileToolkit Source</a></li>
+                    <li>💻 <a href="https://github.com/camel-ai/camel/blob/master/camel/toolkits/mineru_toolkit.py" target="_blank">MinerU Toolkit Source</a></li>
+                    <li>🎯 <a href="https://github.com/camel-ai/camel/tree/master/examples/toolkits" target="_blank">Examples</a></li>
+                    <li>📖 <a href="https://docs.camel-ai.org" target="_blank">Documentation</a></li>
+                    <li>💬 <a href="https://discord.gg/CNcNpquyDc" target="_blank">Discord</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024-2025 CAMEL-AI. Open source and community-driven.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

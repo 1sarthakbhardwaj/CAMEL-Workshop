@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPTX Toolkit - CAMEL-AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="detail-header">
+        <div class="container">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Overview
+            </a>
+            <h1 class="detail-title">📊 PPTX Toolkit</h1>
+            <p class="detail-subtitle">
+                Create stunning PowerPoint presentations programmatically with AI agents
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="detail-content">
+            <div class="content-section">
+                <h2>✨ Overview</h2>
+                <p>
+                    The PPTX Toolkit enables AI agents to create professional PowerPoint presentations programmatically. 
+                    Support for templates, rich formatting, images from Pexels, tables, and step-by-step process diagrams 
+                    makes it perfect for automated report generation and content creation.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2>🎯 Key Features</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <h4>🎨 Template Support</h4>
+                        <p>Use custom templates or start from scratch</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📝 Rich Formatting</h4>
+                        <p>Bold, italics, and custom text styling</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🖼️ Image Integration</h4>
+                        <p>Automatic image fetching from Pexels or URLs</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📊 Tables</h4>
+                        <p>Create structured data tables</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔄 Step-by-Step Processes</h4>
+                        <p>Visual workflow diagrams with chevron/pentagon shapes</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📑 Bullet Points</h4>
+                        <p>Nested bullet points with hierarchy</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🎯 Title Slides</h4>
+                        <p>Professional title and subtitle formatting</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🌐 Cross-Platform</h4>
+                        <p>Works on Windows, macOS, and Linux</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🚀 Quick Start</h2>
+                <h3>Basic Presentation Creation</h3>
+                <div class="code-block">
+<pre>from camel.toolkits import PPTXToolkit
+import json
+
+toolkit = PPTXToolkit(working_directory="./presentations")
+
+# Define presentation content
+content = [
+    {
+        "title": "CAMEL-AI Overview",
+        "subtitle": "Multi-Agent Framework"
+    },
+    {
+        "heading": "Key Features",
+        "bullet_points": [
+            "**Multi-agent** collaboration",
+            "*Powerful* toolkits integration",
+            "Open source and community-driven"
+        ],
+        "img_keywords": "artificial intelligence technology"
+    }
+]
+
+# Create presentation
+result = toolkit.create_presentation(
+    content=json.dumps(content),
+    filename="camel_presentation.pptx"
+)
+
+print(result)</pre>
+                </div>
+
+                <h3>Using with ChatAgent</h3>
+                <div class="code-block">
+<pre>from camel.agents import ChatAgent
+from camel.models import ModelFactory
+from camel.toolkits import PPTXToolkit
+from camel.types import ModelPlatformType, ModelType
+
+model = ModelFactory.create(
+    model_platform=ModelPlatformType.OPENAI,
+    model_type=ModelType.GPT_4O,
+)
+
+pptx_toolkit = PPTXToolkit(working_directory="./pptx_outputs")
+
+agent = ChatAgent(
+    system_message="You create professional PowerPoint presentations.",
+    model=model,
+    tools=pptx_toolkit.get_tools(),
+)
+
+task = """
+Create a presentation about CAMEL-AI with:
+1. Title slide
+2. Introduction slide with key features
+3. Use cases slide
+4. Step-by-step workflow
+5. Summary with a comparison table
+"""
+
+response = agent.step(task)
+print(response.msgs[0].content)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>📐 Presentation Structure</h2>
+                
+                <h3>1. Title Slide (Required)</h3>
+                <div class="code-block">
+<pre>{
+    "title": "Presentation Title",
+    "subtitle": "Subtitle or tagline"
+}</pre>
+                </div>
+
+                <h3>2. Bullet Point Slides</h3>
+                <div class="code-block">
+<pre>{
+    "heading": "Slide Title",
+    "bullet_points": [
+        "**Bold text** for emphasis",
+        "*Italic text* for style",
+        "Regular text",
+        ["Nested item 1", "Nested item 2"]
+    ],
+    "img_keywords": "search terms for images"
+}</pre>
+                </div>
+
+                <h3>3. Step-by-Step Process Slides</h3>
+                <div class="code-block">
+<pre>{
+    "heading": "Development Workflow",
+    "bullet_points": [
+        ">> **Step 1:** Plan requirements",
+        ">> **Step 2:** Design architecture",
+        ">> **Step 3:** Implement features",
+        ">> **Step 4:** Test thoroughly",
+        ">> **Step 5:** Deploy to production"
+    ],
+    "img_keywords": "workflow process"
+}</pre>
+                </div>
+
+                <h3>4. Table Slides</h3>
+                <div class="code-block">
+<pre>{
+    "heading": "Comparison Table",
+    "table": {
+        "headers": ["Feature", "Version 1", "Version 2"],
+        "rows": [
+            ["Speed", "Fast", "Very Fast"],
+            ["Accuracy", "Good", "Excellent"],
+            ["Cost", "$10", "$15"]
+        ]
+    },
+    "img_keywords": "comparison chart"
+}</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🎨 Advanced Features</h2>
+                
+                <h3>Using Custom Templates</h3>
+                <div class="code-block">
+<pre># Use a custom template
+result = toolkit.create_presentation(
+    content=json.dumps(content),
+    filename="branded_presentation.pptx",
+    template="./templates/corporate_template.pptx"
+)</pre>
+                </div>
+
+                <h3>Image Integration</h3>
+                <div class="code-block">
+<pre># Automatic image from Pexels (requires PEXELS_API_KEY)
+{
+    "heading": "Visual Slide",
+    "bullet_points": ["Point 1", "Point 2"],
+    "img_keywords": "technology innovation"
+}
+
+# Direct URL to image
+{
+    "heading": "Custom Image",
+    "bullet_points": ["Point 1"],
+    "img_keywords": "https://example.com/image.jpg"
+}</pre>
+                </div>
+
+                <h3>Rich Text Formatting</h3>
+                <div class="code-block">
+<pre># In bullet points or text:
+"**This is bold text**"
+"*This is italic text*"
+"Regular text with **bold** and *italic* mixed"</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>💡 Use Cases</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <h4>📊 Automated Reports</h4>
+                        <p>Generate weekly/monthly reports with data visualizations</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📚 Educational Content</h4>
+                        <p>Create course materials and tutorials</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>💼 Business Proposals</h4>
+                        <p>Professional proposal and pitch decks</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📈 Data Presentations</h4>
+                        <p>Visualize analysis results and insights</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🎯 Marketing Materials</h4>
+                        <p>Product launches and marketing campaigns</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔄 Documentation</h4>
+                        <p>Technical documentation and guides</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🔧 Configuration</h2>
+                <div class="code-block">
+<pre>PPTXToolkit(
+    working_directory="./pptx_outputs",  # Output directory
+    timeout=None                          # Operation timeout
+)
+
+# Environment variables
+export PEXELS_API_KEY="your_api_key"  # For image fetching
+export CAMEL_WORKDIR="custom_path"     # Alternative to working_directory</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>📝 Complete Example</h2>
+                <div class="code-block">
+<pre>import json
+from camel.toolkits import PPTXToolkit
+
+toolkit = PPTXToolkit(working_directory="./presentations")
+
+presentation_content = [
+    # Title slide
+    {
+        "title": "Modern Software Development",
+        "subtitle": "Best Practices and Tools"
+    },
+    
+    # Bullet points with image
+    {
+        "heading": "Key Development Principles",
+        "bullet_points": [
+            "**Agile** methodology for flexible development",
+            "*Continuous Integration* and *Continuous Deployment*",
+            "**Test-Driven Development** (TDD)",
+            "Code review and pair programming"
+        ],
+        "img_keywords": "software development team"
+    },
+    
+    # Step-by-step process
+    {
+        "heading": "Step-by-Step: Development Workflow",
+        "bullet_points": [
+            ">> **Step 1:** Plan and gather requirements",
+            ">> **Step 2:** Design system architecture",
+            ">> **Step 3:** Implement features",
+            ">> **Step 4:** Write and run tests",
+            ">> **Step 5:** Deploy and monitor"
+        ],
+        "img_keywords": "workflow diagram"
+    },
+    
+    # Table
+    {
+        "heading": "Development Approaches Comparison",
+        "table": {
+            "headers": ["Approach", "Pros", "Cons"],
+            "rows": [
+                ["Waterfall", "Clear structure", "Less flexible"],
+                ["Agile", "Flexible, iterative", "Requires discipline"],
+                ["DevOps", "Fast delivery", "Complex setup"]
+            ]
+        }
+    },
+    
+    # Summary slide
+    {
+        "heading": "Best Practices Summary",
+        "bullet_points": [
+            "Write clean, maintainable code",
+            "Automate testing and deployment",
+            "Monitor and optimize performance",
+            "Document everything"
+        ],
+        "img_keywords": "https://example.com/success.jpg"
+    }
+]
+
+# Create the presentation
+result = toolkit.create_presentation(
+    content=json.dumps(presentation_content),
+    filename="modern_development.pptx",
+    template="./templates/professional.pptx"
+)
+
+print(result)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🎓 Best Practices</h2>
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>1. Use Templates for Branding</h4>
+                    <p>Create custom templates with your brand colors and fonts</p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>2. Limit Bullet Points</h4>
+                    <p>Keep 3-5 bullet points per slide for better readability</p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>3. Use Step-by-Step for Processes</h4>
+                    <p>Use >> prefix for process flows (3-6 steps work best)</p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>4. Optimize Images</h4>
+                    <p>Use relevant keywords for automatic image selection</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>5. Validate JSON Structure</h4>
+                    <p>Always validate JSON before passing to create_presentation</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>⚠️ Limitations</h2>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Step-by-step slides work best with 3-6 steps</li>
+                    <li>Image fetching requires PEXELS_API_KEY</li>
+                    <li>Some advanced PowerPoint features not supported</li>
+                    <li>Template compatibility depends on slide layouts</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>📚 Additional Resources</h2>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>💻 <a href="https://github.com/camel-ai/camel/blob/master/camel/toolkits/pptx_toolkit.py" target="_blank">Source Code</a></li>
+                    <li>🎯 <a href="https://github.com/camel-ai/camel/blob/master/examples/toolkits/pptx_toolkit.py" target="_blank">Complete Example</a></li>
+                    <li>🎨 <a href="https://github.com/camel-ai/camel/tree/master/examples/toolkits/slides_templates" target="_blank">Sample Templates</a></li>
+                    <li>📖 <a href="https://docs.camel-ai.org" target="_blank">Documentation</a></li>
+                    <li>💬 <a href="https://discord.gg/CNcNpquyDc" target="_blank">Discord</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024-2025 CAMEL-AI. Open source and community-driven.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Toolkit - CAMEL-AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="detail-header">
+        <div class="container">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Overview
+            </a>
+            <h1 class="detail-title">🔍 Search Toolkit</h1>
+            <p class="detail-subtitle">
+                Unified interface to 12+ search engines for comprehensive web and academic research
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="detail-content">
+            <div class="content-section">
+                <h2>✨ Overview</h2>
+                <p>
+                    The Search Toolkit provides AI agents with powerful search capabilities across multiple platforms. 
+                    From general web search to specialized academic databases, this toolkit offers a unified interface 
+                    to gather information from diverse sources.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2>🌍 Supported Search Engines</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <h4>🌐 Google Search</h4>
+                        <p>Most comprehensive web and image search</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🦁 Brave Search</h4>
+                        <p>Privacy-focused search with AI summaries</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🦆 DuckDuckGo</h4>
+                        <p>Privacy-first search for text, images, and videos</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔮 Exa</h4>
+                        <p>Neural search optimized for AI applications</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🧭 Tavily</h4>
+                        <p>Real-time search optimized for LLMs</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔗 Linkup</h4>
+                        <p>Deep search with sourced answers</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📚 Wikipedia</h4>
+                        <p>Encyclopedia search for factual information</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🌏 Alibaba Tongxiao</h4>
+                        <p>Chinese language optimized search</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔵 Metaso</h4>
+                        <p>Advanced Chinese search engine</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📱 Bocha AI</h4>
+                        <p>AI-powered Chinese search</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🐉 Baidu</h4>
+                        <p>Leading Chinese search engine</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔷 Bing</h4>
+                        <p>Microsoft's search engine</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🚀 Quick Start</h2>
+                <h3>Basic Usage with Brave</h3>
+                <div class="code-block">
+<pre>from camel.toolkits import SearchToolkit
+
+toolkit = SearchToolkit()
+
+# Search with Brave
+results = toolkit.search_brave(
+    q="What is CAMEL-AI?",
+    search_lang="en",
+    number_of_result_pages=10
+)
+
+print(results)</pre>
+                </div>
+
+                <h3>Using with ChatAgent</h3>
+                <div class="code-block">
+<pre>from camel.agents import ChatAgent
+from camel.toolkits import FunctionTool, SearchToolkit
+
+agent = ChatAgent(
+    system_message="You are a helpful search assistant.",
+    tools=[FunctionTool(SearchToolkit().search_brave)],
+)
+
+response = agent.step("What is the temperature in Tokyo?")
+print(response.msgs[0].content)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🛠️ Search Methods</h2>
+                
+                <h3>Google Search</h3>
+                <div class="code-block">
+<pre>results = toolkit.search_google(
+    query="artificial intelligence",
+    search_type="web",  # or "image"
+    number_of_result_pages=10,
+    start_page=1
+)</pre>
+                </div>
+
+                <h3>DuckDuckGo</h3>
+                <div class="code-block">
+<pre>results = toolkit.search_duckduckgo(
+    query="machine learning",
+    source="text",  # or "images", "videos"
+    number_of_result_pages=10
+)</pre>
+                </div>
+
+                <h3>Exa Neural Search</h3>
+                <div class="code-block">
+<pre>results = toolkit.search_exa(
+    query="quantum computing research papers",
+    search_type="neural",  # or "keyword", "auto"
+    category="research paper",
+    use_autoprompt=True,
+    text=True,  # Include full text
+    number_of_result_pages=10
+)</pre>
+                </div>
+
+                <h3>Linkup Search</h3>
+                <div class="code-block">
+<pre>results = toolkit.search_linkup(
+    query="Women Nobel Prize winners in Physics",
+    depth="deep",  # or "standard"
+    output_type="sourcedAnswer"  # or "searchResults", "structured"
+)</pre>
+                </div>
+
+                <h3>Wikipedia</h3>
+                <div class="code-block">
+<pre>summary = toolkit.search_wiki(entity="Artificial Intelligence")</pre>
+                </div>
+
+                <h3>Chinese Search Engines</h3>
+                <div class="code-block">
+<pre># Alibaba Tongxiao (optimized for Chinese)
+results = toolkit.search_alibaba_tongxiao(
+    query="阿里巴巴2024年的esg报告",
+    time_range="OneMonth",
+    industry="finance",
+    enable_rerank=True
+)
+
+# Baidu
+results = toolkit.search_baidu(
+    query="今天北京的天气如何",
+    number_of_result_pages=10
+)
+
+# Metaso
+results = toolkit.search_metaso(
+    query="What is CAMEL-AI?",
+    scope="webpage"
+)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🎯 Advanced Features</h2>
+                
+                <h3>Structured Output with Linkup</h3>
+                <div class="code-block">
+<pre>from pydantic import BaseModel
+
+class PersonInfo(BaseModel):
+    name: str = ""
+    description: str = ""
+
+results = toolkit.search_linkup(
+    query="Nobel Prize winners in Physics",
+    output_type="structured",
+    structured_output_schema=PersonInfo
+)</pre>
+                </div>
+
+                <h3>Domain Exclusion</h3>
+                <div class="code-block">
+<pre># Exclude specific domains from Google search
+toolkit = SearchToolkit(
+    exclude_domains=["wikipedia.org", "facebook.com"]
+)
+
+results = toolkit.search_google(
+    query="machine learning tutorials"
+)</pre>
+                </div>
+
+                <h3>Time-based Filtering</h3>
+                <div class="code-block">
+<pre># Brave Search with freshness filter
+results = toolkit.search_brave(
+    q="latest AI developments",
+    freshness="pd",  # past day: 'pd', week: 'pw', month: 'pm'
+)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>💡 Use Cases</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <h4>📊 Research & Analysis</h4>
+                        <p>Gather information from multiple sources for comprehensive research</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📰 News Monitoring</h4>
+                        <p>Track latest developments and breaking news</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🎓 Academic Research</h4>
+                        <p>Find research papers and scholarly articles</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🛒 Product Research</h4>
+                        <p>Compare products and gather reviews</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📈 Market Intelligence</h4>
+                        <p>Monitor competitors and market trends</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🌍 Multilingual Search</h4>
+                        <p>Search in Chinese, English, and other languages</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🔧 Configuration & API Keys</h2>
+                <p>Different search engines require different API keys:</p>
+                
+                <div class="code-block">
+<pre># Required environment variables
+export GOOGLE_API_KEY="your_key"
+export SEARCH_ENGINE_ID="your_id"
+export BRAVE_API_KEY="your_key"
+export EXA_API_KEY="your_key"
+export TAVILY_API_KEY="your_key"
+export LINKUP_API_KEY="your_key"
+export BOCHA_API_KEY="your_key"
+export TONGXIAO_API_KEY="your_key"
+export METASO_API_KEY="your_key"</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🎓 Best Practices</h2>
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>1. Choose the Right Engine</h4>
+                    <p><strong>Google:</strong> Most comprehensive, best for general queries</p>
+                    <p><strong>Exa:</strong> Best for research papers and technical content</p>
+                    <p><strong>Brave:</strong> Good balance of quality and privacy</p>
+                    <p><strong>Chinese engines:</strong> Essential for Chinese language content</p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>2. Optimize Result Count</h4>
+                    <p>Use fewer results for focused searches (3-5)</p>
+                    <p>Use more results for comprehensive research (10-20)</p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>3. Combine Multiple Engines</h4>
+                    <p>Use multiple search engines for cross-verification</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>4. Handle API Rate Limits</h4>
+                    <p>Implement retry logic and respect rate limits</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>📚 Additional Resources</h2>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>💻 <a href="https://github.com/camel-ai/camel/blob/master/camel/toolkits/search_toolkit.py" target="_blank">Source Code</a></li>
+                    <li>🎯 <a href="https://github.com/camel-ai/camel/blob/master/examples/toolkits/search_toolkit.py" target="_blank">Example Script</a></li>
+                    <li>📖 <a href="https://docs.camel-ai.org" target="_blank">Documentation</a></li>
+                    <li>💬 <a href="https://discord.gg/CNcNpquyDc" target="_blank">Discord Community</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024-2025 CAMEL-AI. Open source and community-driven.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

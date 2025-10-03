@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Toolkit - CAMEL-AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="detail-header">
+        <div class="container">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Overview
+            </a>
+            <h1 class="detail-title">💻 Terminal Toolkit</h1>
+            <p class="detail-subtitle">
+                Execute shell commands safely with powerful session management and Docker isolation
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="detail-content">
+            <div class="content-section">
+                <h2>✨ Overview</h2>
+                <p>
+                    The Terminal Toolkit provides AI agents with safe and powerful command-line execution capabilities. 
+                    Whether running commands locally or in isolated Docker containers, this toolkit ensures secure 
+                    interaction with the system while maintaining full control and observability.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2>🎯 Key Features</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <h4>🐳 Docker Backend</h4>
+                        <p>Execute commands in isolated Docker containers for maximum security</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔒 Safe Mode</h4>
+                        <p>Built-in command sanitization and safety checks</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>⚡ Session Management</h4>
+                        <p>Non-blocking sessions with background process support</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🌍 Environment Cloning</h4>
+                        <p>Clone current Python environment or create fresh isolated environments</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📝 Comprehensive Logging</h4>
+                        <p>Track all commands and outputs with detailed session logs</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🎯 Working Directory</h4>
+                        <p>Sandbox operations to specific directories</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>⏱️ Timeout Control</h4>
+                        <p>Configurable timeouts for long-running commands</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>👤 Human-in-the-Loop</h4>
+                        <p>Ask for human help when needed</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🚀 Quick Start</h2>
+                <h3>Basic Local Execution</h3>
+                <div class="code-block">
+<pre>from camel.toolkits import TerminalToolkit
+from camel.agents import ChatAgent
+from camel.models import ModelFactory
+from camel.types import ModelPlatformType, ModelType
+
+# Initialize the toolkit
+terminal_toolkit = TerminalToolkit(
+    working_directory="./workspace",
+    safe_mode=True,
+    timeout=20.0
+)
+
+# Create an agent
+model = ModelFactory.create(
+    model_platform=ModelPlatformType.DEFAULT,
+    model_type=ModelType.DEFAULT,
+)
+
+agent = ChatAgent(
+    system_message="You are a System Administrator with terminal access.",
+    model=model,
+    tools=terminal_toolkit.get_tools(),
+)
+
+# Execute commands
+response = agent.step("Create a 'logs' directory and list its contents")
+print(response.msgs[0].content)</pre>
+                </div>
+
+                <h3>Docker Backend</h3>
+                <div class="code-block">
+<pre>from camel.toolkits import TerminalToolkit
+
+# Initialize with Docker backend
+terminal_toolkit = TerminalToolkit(
+    use_docker_backend=True,
+    docker_container_name="my_container",
+    working_directory="/workspace",  # Path inside container
+    safe_mode=False,  # More permissive in isolated environment
+)
+
+agent = ChatAgent(
+    system_message="You have access to a Docker container.",
+    model=model,
+    tools=terminal_toolkit.get_tools(),
+)
+
+response = agent.step("Install python packages and run a script")</pre>
+                </div>
+
+                <h3>Environment Cloning</h3>
+                <div class="code-block">
+<pre># Clone current Python environment
+terminal_toolkit = TerminalToolkit(
+    working_directory="./workspace",
+    clone_current_env=True,  # Clone all installed packages
+)
+
+# Or use a fresh Python 3.10 environment
+terminal_toolkit = TerminalToolkit(
+    working_directory="./workspace",
+    clone_current_env=False,  # Fresh environment with uv
+)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🛠️ Available Tools</h2>
+                <h3>Core Functions</h3>
+                
+                <div class="feature-item" style="margin: 20px 0;">
+                    <h4><code>shell_exec(id: str, command: str, block: bool = True)</code></h4>
+                    <p>Execute a shell command in blocking or non-blocking mode</p>
+                    <div class="code-block" style="margin-top: 10px;">
+<pre># Blocking execution (wait for completion)
+result = toolkit.shell_exec(
+    id="session1",
+    command="ls -la",
+    block=True
+)
+
+# Non-blocking (background process)
+result = toolkit.shell_exec(
+    id="long_task",
+    command="python train_model.py",
+    block=False
+)</pre>
+                    </div>
+                </div>
+
+                <div class="feature-item" style="margin: 20px 0;">
+                    <h4><code>shell_write_to_process(id: str, command: str)</code></h4>
+                    <p>Send input to a running non-blocking process</p>
+                    <div class="code-block" style="margin-top: 10px;">
+<pre># Start an interactive Python session
+shell_exec(id="py_session", command="python3", block=False)
+
+# Send Python code to the session
+shell_write_to_process(
+    id="py_session",
+    command="print('Hello from Python!')"
+)</pre>
+                    </div>
+                </div>
+
+                <div class="feature-item" style="margin: 20px 0;">
+                    <h4><code>shell_view(id: str)</code></h4>
+                    <p>View new output from a non-blocking session</p>
+                    <div class="code-block" style="margin-top: 10px;">
+<pre>output = shell_view(id="py_session")
+print(output)</pre>
+                    </div>
+                </div>
+
+                <div class="feature-item" style="margin: 20px 0;">
+                    <h4><code>shell_wait(id: str, wait_seconds: float = 5.0)</code></h4>
+                    <p>Wait for output from a running process</p>
+                    <div class="code-block" style="margin-top: 10px;">
+<pre>output = shell_wait(id="long_task", wait_seconds=10.0)</pre>
+                    </div>
+                </div>
+
+                <div class="feature-item" style="margin: 20px 0;">
+                    <h4><code>shell_kill_process(id: str)</code></h4>
+                    <p>Terminate a running non-blocking process</p>
+                    <div class="code-block" style="margin-top: 10px;">
+<pre>result = shell_kill_process(id="long_task")</pre>
+                    </div>
+                </div>
+
+                <div class="feature-item" style="margin: 20px 0;">
+                    <h4><code>shell_ask_user_for_help(id: str, prompt: str)</code></h4>
+                    <p>Request human assistance for a task</p>
+                    <div class="code-block" style="margin-top: 10px;">
+<pre>result = shell_ask_user_for_help(
+    id="install_session",
+    prompt="Please install the required packages"
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>💡 Use Cases</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <h4>🔧 DevOps Automation</h4>
+                        <p>Deploy applications, manage servers, automate system tasks</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📦 Package Management</h4>
+                        <p>Install dependencies, manage virtual environments</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🧪 Testing & CI/CD</h4>
+                        <p>Run tests, build projects, execute deployment scripts</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📊 Data Processing</h4>
+                        <p>Process files, run data pipelines, generate reports</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔍 System Monitoring</h4>
+                        <p>Check system status, analyze logs, monitor resources</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🤖 ML Training</h4>
+                        <p>Launch training jobs, monitor progress, manage experiments</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🔧 Configuration Options</h2>
+                <div class="code-block">
+<pre>TerminalToolkit(
+    # Execution mode
+    use_docker_backend=False,    # Use Docker for isolation
+    docker_container_name=None,  # Required if Docker is used
+    
+    # Working directory
+    working_directory="./workspace",  # Base directory for operations
+    
+    # Safety
+    safe_mode=True,              # Enable command sanitization
+    allowed_commands=None,       # Whitelist of allowed commands
+    
+    # Timeouts
+    timeout=20.0,                # Default timeout in seconds
+    
+    # Environment
+    clone_current_env=False,     # Clone current Python environment
+    
+    # Logging
+    session_logs_dir=None,       # Custom log directory
+)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🛡️ Safety Features</h2>
+                
+                <h3>Safe Mode</h3>
+                <p>When <code>safe_mode=True</code>, the toolkit automatically:</p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Blocks dangerous commands (rm -rf /, format, etc.)</li>
+                    <li>Validates file paths are within working directory</li>
+                    <li>Prevents privilege escalation attempts</li>
+                    <li>Sanitizes command inputs</li>
+                </ul>
+
+                <h3>Command Whitelisting</h3>
+                <div class="code-block">
+<pre># Only allow specific commands
+terminal_toolkit = TerminalToolkit(
+    safe_mode=True,
+    allowed_commands=["ls", "cat", "grep", "python", "pip"],
+)</pre>
+                </div>
+
+                <h3>Docker Isolation</h3>
+                <p>For maximum security, use Docker backend to isolate all command execution:</p>
+                <div class="code-block">
+<pre>terminal_toolkit = TerminalToolkit(
+    use_docker_backend=True,
+    docker_container_name="secure_container",
+    safe_mode=False,  # Can be more permissive in Docker
+)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🎓 Best Practices</h2>
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>1. Always Use Safe Mode in Production</h4>
+                    <p>Enable <code>safe_mode=True</code> unless you have specific reasons not to</p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>2. Prefer Docker for Untrusted Operations</h4>
+                    <p>Use Docker backend when executing user-provided or AI-generated commands</p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>3. Monitor Long-Running Processes</h4>
+                    <p>Use non-blocking mode for long tasks, check with <code>shell_view()</code> periodically</p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>4. Clean Up Sessions</h4>
+                    <p>Always kill background processes when done to prevent resource leaks</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>5. Use Environment Isolation</h4>
+                    <p>Clone environments or use fresh ones to avoid dependency conflicts</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>📚 Example Workflows</h2>
+                
+                <h3>Python Project Setup</h3>
+                <div class="code-block">
+<pre>task = """
+1. Create a new Python project directory
+2. Initialize a virtual environment
+3. Install required packages: numpy, pandas, scikit-learn
+4. Create a requirements.txt file
+5. List the project structure
+"""
+
+response = agent.step(task)</pre>
+                </div>
+
+                <h3>Log File Analysis</h3>
+                <div class="code-block">
+<pre>task = """
+1. Create a logs directory
+2. Create app.log with sample log entries
+3. Search for ERROR messages in the log file
+4. Count total number of log entries
+5. Clean up the logs directory
+"""
+
+response = agent.step(task)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>📚 Additional Resources</h2>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>💻 <a href="https://github.com/camel-ai/camel/tree/master/camel/toolkits/terminal_toolkit" target="_blank">Source Code on GitHub</a></li>
+                    <li>🎯 <a href="https://github.com/camel-ai/camel/blob/master/examples/toolkits/terminal_toolkit.py" target="_blank">Example Script</a></li>
+                    <li>📖 <a href="https://docs.camel-ai.org" target="_blank">Full Documentation</a></li>
+                    <li>💬 <a href="https://discord.gg/CNcNpquyDc" target="_blank">Get Help on Discord</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024-2025 CAMEL-AI. Open source and community-driven.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

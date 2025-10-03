@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Browser Toolkit - CAMEL-AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="detail-header">
+        <div class="container">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Overview
+            </a>
+            <h1 class="detail-title">🌐 Hybrid Browser Toolkit</h1>
+            <p class="detail-subtitle">
+                The most advanced browser automation toolkit for AI agents, combining visual and DOM-based interactions
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="detail-content">
+            <div class="content-section">
+                <h2>✨ Overview</h2>
+                <p>
+                    The Hybrid Browser Toolkit represents the cutting edge of browser automation for AI agents. 
+                    It combines non-visual, DOM-based browser automation with visual, screenshot-based capabilities, 
+                    enabling sophisticated web interactions that were previously impossible for AI agents.
+                </p>
+                <p>
+                    From the <strong>Notion article</strong>: The toolkit bridges the gap between traditional automation 
+                    and AI-powered agents by providing both programmatic control and visual understanding of web pages.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2>🎯 Key Features</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <h4>🔄 Dual Mode Operation</h4>
+                        <p>Switch between TypeScript (WebSocket) and Python (Playwright) implementations seamlessly</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🕵️ Stealth Mode</h4>
+                        <p>Advanced anti-detection capabilities to bypass bot protection systems</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🎬 Visual Automation</h4>
+                        <p>Set-of-Mark (SOM) screenshots with marked interactive elements for AI vision models</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔗 CDP Support</h4>
+                        <p>Connect to existing browsers via Chrome DevTools Protocol</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📸 Smart Snapshots</h4>
+                        <p>Playwright's _snapshotForAI functionality for enhanced AI integration</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>💾 User Data Persistence</h4>
+                        <p>Maintain cookies, sessions, and browser state across runs</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🎯 Viewport Limiting</h4>
+                        <p>Filter snapshots to only visible elements, reducing context size</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📝 Detailed Logging</h4>
+                        <p>Comprehensive browser action logging for debugging and analysis</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🚀 Quick Start</h2>
+                <h3>Basic Usage</h3>
+                <div class="code-block">
+<pre>from camel.toolkits import HybridBrowserToolkit
+from camel.agents import ChatAgent
+from camel.models import ModelFactory
+from camel.types import ModelPlatformType, ModelType
+
+# Initialize the model
+model = ModelFactory.create(
+    model_platform=ModelPlatformType.OPENAI,
+    model_type=ModelType.GPT_4O,
+)
+
+# Create the toolkit with custom tools
+custom_tools = [
+    "browser_open",
+    "browser_close",
+    "browser_visit_page",
+    "browser_click",
+    "browser_type",
+    "browser_enter",
+]
+
+web_toolkit = HybridBrowserToolkit(
+    headless=False,
+    user_data_dir="User_Data",
+    enabled_tools=custom_tools,
+    browser_log_to_file=True,
+    stealth=True,
+    viewport_limit=True,
+)
+
+# Create an agent with the toolkit
+agent = ChatAgent(
+    model=model,
+    tools=[*web_toolkit.get_tools()],
+    toolkits_to_register_agent=[web_toolkit],
+)
+
+# Use the agent
+task = """
+Use Google Search to find news about AI, 
+click on relevant websites, and summarize the content.
+"""
+
+response = await agent.astep(task)
+print(response.msgs[0].content)</pre>
+                </div>
+
+                <h3>Advanced: Python vs TypeScript Mode</h3>
+                <div class="code-block">
+<pre># TypeScript mode (default) - WebSocket-based
+toolkit_ts = HybridBrowserToolkit(
+    mode="typescript",
+    headless=False,
+    stealth=True,
+)
+
+# Python mode - Pure Playwright
+toolkit_py = HybridBrowserToolkit(
+    mode="python",
+    headless=True,
+    viewport_limit=True,
+)
+
+# Connect to existing browser via CDP (TypeScript only)
+toolkit_cdp = HybridBrowserToolkit(
+    mode="typescript",
+    connect_over_cdp=True,
+    cdp_url="ws://localhost:9222/devtools/browser/...",
+    cdp_keep_current_page=True,
+)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🛠️ Available Tools</h2>
+                <h3>Core Navigation Tools</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><code>browser_open</code> - Initialize a new browser session</li>
+                    <li><code>browser_close</code> - Close the browser session</li>
+                    <li><code>browser_visit_page</code> - Navigate to a URL</li>
+                    <li><code>browser_back</code> - Go back in history</li>
+                    <li><code>browser_forward</code> - Go forward in history</li>
+                </ul>
+
+                <h3>Interaction Tools</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><code>browser_click</code> - Click on elements</li>
+                    <li><code>browser_type</code> - Type text into inputs</li>
+                    <li><code>browser_select</code> - Select dropdown options</li>
+                    <li><code>browser_scroll</code> - Scroll the page</li>
+                    <li><code>browser_enter</code> - Press Enter key</li>
+                    <li><code>browser_press_key</code> - Press any keyboard key</li>
+                    <li><code>browser_mouse_control</code> - Advanced mouse movements</li>
+                    <li><code>browser_mouse_drag</code> - Drag and drop operations</li>
+                </ul>
+
+                <h3>Information Gathering</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><code>browser_get_page_snapshot</code> - Get page DOM snapshot</li>
+                    <li><code>browser_get_som_screenshot</code> - Get screenshot with marked elements</li>
+                    <li><code>browser_get_page_links</code> - Extract all links from page</li>
+                    <li><code>browser_console_view</code> - View console messages</li>
+                </ul>
+
+                <h3>Tab Management</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><code>browser_switch_tab</code> - Switch between tabs</li>
+                    <li><code>browser_close_tab</code> - Close specific tab</li>
+                    <li><code>browser_get_tab_info</code> - Get tab information</li>
+                </ul>
+
+                <h3>Advanced Tools</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><code>browser_solve_task</code> - AI-powered task solving</li>
+                    <li><code>browser_console_exec</code> - Execute JavaScript in console</li>
+                    <li><code>browser_wait_user</code> - Wait for user interaction</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>💡 Use Cases</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <h4>🔍 Web Research</h4>
+                        <p>Automatically search, browse multiple sources, and extract information</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🤖 Form Automation</h4>
+                        <p>Fill out complex forms with visual validation</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📊 Data Scraping</h4>
+                        <p>Extract structured data from dynamic websites</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🧪 Web Testing</h4>
+                        <p>Automated testing with AI-powered assertions</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🛒 E-commerce</h4>
+                        <p>Product research, price comparison, automated purchasing</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📱 Social Media</h4>
+                        <p>Automated content posting and monitoring</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🔧 Configuration Options</h2>
+                <div class="code-block">
+<pre>HybridBrowserToolkit(
+    # Mode selection
+    mode="typescript",  # or "python"
+    
+    # Browser settings
+    headless=True,      # Run without GUI
+    stealth=True,       # Enable anti-detection
+    user_data_dir="User_Data",  # Persist cookies/sessions
+    
+    # Performance optimization
+    viewport_limit=True,  # Only include visible elements
+    cache_dir="tmp/",     # Cache directory
+    
+    # Timeouts (in milliseconds)
+    default_timeout=30000,
+    navigation_timeout=30000,
+    screenshot_timeout=5000,
+    
+    # Logging
+    browser_log_to_file=True,
+    log_dir="browser_log",
+    
+    # CDP mode (TypeScript only)
+    connect_over_cdp=False,
+    cdp_url=None,
+    cdp_keep_current_page=False,
+    
+    # Visual mode
+    full_visual_mode=False,
+    
+    # Tools configuration
+    enabled_tools=HybridBrowserToolkit.ALL_TOOLS,
+)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🎓 Best Practices</h2>
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>1. Choose the Right Mode</h4>
+                    <p><strong>TypeScript mode:</strong> Better for complex interactions and CDP support</p>
+                    <p><strong>Python mode:</strong> Simpler setup, better for basic automation</p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>2. Optimize Context Size</h4>
+                    <p>Enable <code>viewport_limit=True</code> to reduce context sent to LLMs</p>
+                    <p>Remove unnecessary tools from <code>enabled_tools</code></p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>3. Use Stealth Mode Wisely</h4>
+                    <p>Enable <code>stealth=True</code> for sites with bot protection</p>
+                    <p>Combine with <code>user_data_dir</code> for persistent sessions</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>4. Handle Errors Gracefully</h4>
+                    <p>Always clean up with <code>await toolkit.browser_close()</code></p>
+                    <p>Use try-finally blocks to ensure cleanup</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>📚 Additional Resources</h2>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>📖 <a href="https://www.notion.so/eigent-ai/CAMEL-Browser-toolkit-blog-26f511c70ba280b885c1f481f3de71d8" target="_blank">Official Notion Documentation</a></li>
+                    <li>💻 <a href="https://github.com/camel-ai/camel/tree/master/camel/toolkits/hybrid_browser_toolkit" target="_blank">Source Code on GitHub</a></li>
+                    <li>🎯 <a href="https://github.com/camel-ai/camel/tree/master/examples/toolkits" target="_blank">Example Scripts</a></li>
+                    <li>💬 <a href="https://discord.gg/CNcNpquyDc" target="_blank">Get Help on Discord</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024-2025 CAMEL-AI. Open source and community-driven.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

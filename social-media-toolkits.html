@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Toolkits - CAMEL-AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="detail-header">
+        <div class="container">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Overview
+            </a>
+            <h1 class="detail-title">📱 Social Media Toolkits</h1>
+            <p class="detail-subtitle">
+                Integrate AI agents with Twitter/X, Reddit, LinkedIn, and more
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="detail-content">
+            <div class="content-section">
+                <h2>✨ Overview</h2>
+                <p>
+                    CAMEL-AI provides comprehensive social media integration toolkits that enable AI agents to 
+                    interact with major social platforms. From posting content to tracking discussions and 
+                    performing sentiment analysis, these toolkits make social media automation accessible and powerful.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h2>🌐 Available Platforms</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <h4>𝕏 Twitter/X Toolkit</h4>
+                        <p>Create, delete tweets, manage profiles</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔴 Reddit Toolkit</h4>
+                        <p>Track discussions, sentiment analysis</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>💼 LinkedIn Toolkit</h4>
+                        <p>Professional networking and posting</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>💬 Slack Toolkit</h4>
+                        <p>Team communication automation</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📱 WhatsApp Toolkit</h4>
+                        <p>Messaging and media sharing</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>💙 DingTalk Toolkit</h4>
+                        <p>Enterprise collaboration (China)</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>💚 WeChat Toolkit</h4>
+                        <p>Official accounts management</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>𝕏 Twitter/X Toolkit</h2>
+                <h3>Features</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>✍️ Create tweets (text, polls, quote tweets)</li>
+                    <li>🗑️ Delete tweets</li>
+                    <li>👤 Get user profiles</li>
+                    <li>🔍 Search users by username</li>
+                    <li>📊 Access public metrics</li>
+                </ul>
+
+                <h3>Quick Start</h3>
+                <div class="code-block">
+<pre>from camel.toolkits import TwitterToolkit
+
+toolkit = TwitterToolkit()
+
+# Required environment variables:
+# TWITTER_CONSUMER_KEY
+# TWITTER_CONSUMER_SECRET
+# TWITTER_ACCESS_TOKEN
+# TWITTER_ACCESS_TOKEN_SECRET
+
+# Create a tweet
+result = toolkit.create_tweet(
+    text="Just built an AI agent with @camel_ai! 🐫🤖",
+    poll_options=None,
+    quote_tweet_id=None
+)
+
+# Get user profile
+profile = toolkit.get_user_by_username("camel_ai")
+print(profile)
+
+# Delete a tweet
+toolkit.delete_tweet(tweet_id="1234567890")</pre>
+                </div>
+
+                <h3>Create Tweet with Poll</h3>
+                <div class="code-block">
+<pre>result = toolkit.create_tweet(
+    text="Which AI framework do you prefer?",
+    poll_options=["CAMEL-AI", "LangChain", "AutoGen"],
+    poll_duration_minutes=1440  # 24 hours
+)</pre>
+                </div>
+
+                <h3>Quote Tweet</h3>
+                <div class="code-block">
+<pre>result = toolkit.create_tweet(
+    text="This is an interesting take on AI agents!",
+    quote_tweet_id="1234567890"
+)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🔴 Reddit Toolkit</h2>
+                <h3>Features</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>📊 Collect top posts from subreddits</li>
+                    <li>💭 Extract comments with scores</li>
+                    <li>🔍 Track keyword discussions</li>
+                    <li>😊 Perform sentiment analysis</li>
+                    <li>📈 Monitor multiple subreddits</li>
+                </ul>
+
+                <h3>Quick Start</h3>
+                <div class="code-block">
+<pre>from camel.toolkits import RedditToolkit
+
+toolkit = RedditToolkit(
+    retries=3,
+    delay=0.5
+)
+
+# Required environment variables:
+# REDDIT_CLIENT_ID
+# REDDIT_CLIENT_SECRET
+# REDDIT_USER_AGENT
+
+# Collect top posts
+posts = toolkit.collect_top_posts(
+    subreddit_name="artificialintelligence",
+    post_limit=5,
+    comment_limit=5
+)
+
+for post in posts:
+    print(f"Post: {post['Post Title']}")
+    for comment in post['Comments']:
+        print(f"  - {comment['Comment Body']}")</pre>
+                </div>
+
+                <h3>Track Keywords</h3>
+                <div class="code-block">
+<pre># Track specific keywords across subreddits
+results = toolkit.track_keyword_discussions(
+    subreddits=["MachineLearning", "artificial", "deeplearning"],
+    keywords=["GPT", "transformer", "attention"],
+    post_limit=10,
+    comment_limit=10,
+    sentiment_analysis=True
+)
+
+for item in results:
+    print(f"Subreddit: {item['Subreddit']}")
+    print(f"Comment: {item['Comment Body']}")
+    print(f"Sentiment: {item['Sentiment Score']}")</pre>
+                </div>
+
+                <h3>Sentiment Analysis</h3>
+                <div class="code-block">
+<pre># Perform sentiment analysis on collected data
+data = toolkit.collect_top_posts("technology", 10, 10)
+analyzed = toolkit.perform_sentiment_analysis(data)
+
+# Sentiment scores: -1 (negative) to 1 (positive)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>💼 LinkedIn Toolkit</h2>
+                <h3>Features</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>📝 Create professional posts</li>
+                    <li>🗑️ Delete posts</li>
+                    <li>👤 Get profile information</li>
+                    <li>🌐 Public visibility posts</li>
+                </ul>
+
+                <h3>Quick Start</h3>
+                <div class="code-block">
+<pre>from camel.toolkits import LinkedInToolkit
+
+toolkit = LinkedInToolkit()
+
+# Required environment variable:
+# LINKEDIN_ACCESS_TOKEN
+
+# Create a post
+result = toolkit.create_post(
+    text="""Excited to share that we've integrated CAMEL-AI 
+    into our workflow! The multi-agent capabilities are 
+    game-changing for enterprise automation. #AI #Automation"""
+)
+
+print(f"Post ID: {result['Post ID']}")
+print(f"Content: {result['Text']}")
+
+# Get profile
+profile = toolkit.get_profile()
+print(f"Name: {profile['First Name']} {profile['Last Name']}")
+print(f"Email: {profile['Email']}")</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>💬 Other Social Media Toolkits</h2>
+                
+                <h3>Slack Toolkit</h3>
+                <div class="code-block">
+<pre># Send messages to Slack channels
+from camel.toolkits import SlackToolkit
+
+toolkit = SlackToolkit()
+toolkit.send_message(
+    channel="#general",
+    message="Build completed successfully! ✅"
+)</pre>
+                </div>
+
+                <h3>WhatsApp Toolkit</h3>
+                <div class="code-block">
+<pre># Send WhatsApp messages
+from camel.toolkits import WhatsAppToolkit
+
+toolkit = WhatsAppToolkit()
+toolkit.send_message(
+    recipient="1234567890",
+    message="Your order has been shipped!"
+)</pre>
+                </div>
+
+                <h3>DingTalk & WeChat</h3>
+                <div class="code-block">
+<pre># Enterprise communication in China
+from camel.toolkits import DingTalkToolkit, WeChatOfficialToolkit
+
+# DingTalk
+dingtalk = DingTalkToolkit()
+dingtalk.send_notification(message="Meeting in 10 minutes")
+
+# WeChat Official Account
+wechat = WeChatOfficialToolkit()
+wechat.send_template_message(user_id="...", template_id="...")</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>💡 Use Cases</h2>
+                <div class="features-list">
+                    <div class="feature-item">
+                        <h4>📢 Social Media Management</h4>
+                        <p>Automate posting across multiple platforms</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔍 Brand Monitoring</h4>
+                        <p>Track brand mentions and sentiment</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📊 Market Research</h4>
+                        <p>Gather insights from social discussions</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🤖 Customer Service</h4>
+                        <p>Automated responses and support</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📰 Content Distribution</h4>
+                        <p>Share blog posts and updates</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📈 Analytics & Reporting</h4>
+                        <p>Generate social media reports</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🔧 Configuration & API Keys</h2>
+                
+                <h3>Twitter/X</h3>
+                <div class="code-block">
+<pre>export TWITTER_CONSUMER_KEY="your_key"
+export TWITTER_CONSUMER_SECRET="your_secret"
+export TWITTER_ACCESS_TOKEN="your_token"
+export TWITTER_ACCESS_TOKEN_SECRET="your_token_secret"
+
+# Get keys from: https://developer.x.com/en/portal/dashboard</pre>
+                </div>
+
+                <h3>Reddit</h3>
+                <div class="code-block">
+<pre>export REDDIT_CLIENT_ID="your_client_id"
+export REDDIT_CLIENT_SECRET="your_secret"
+export REDDIT_USER_AGENT="your_app_name/1.0"
+
+# Get keys from: https://www.reddit.com/prefs/apps</pre>
+                </div>
+
+                <h3>LinkedIn</h3>
+                <div class="code-block">
+<pre>export LINKEDIN_ACCESS_TOKEN="your_oauth_token"
+
+# Get token from: https://www.linkedin.com/developers/apps</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>🎓 Best Practices</h2>
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>1. Respect Rate Limits</h4>
+                    <p>Each platform has rate limits. Use delays and retry logic.</p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>2. Handle Errors Gracefully</h4>
+                    <p>Social media APIs can fail. Always implement error handling.</p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>3. Monitor Sentiment</h4>
+                    <p>Use sentiment analysis to gauge public opinion.</p>
+                </div>
+
+                <div class="feature-item" style="margin-bottom: 20px;">
+                    <h4>4. Comply with Terms of Service</h4>
+                    <p>Follow each platform's automation policies and guidelines.</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>5. Protect API Credentials</h4>
+                    <p>Never commit API keys to version control.</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>📝 Complete Example: Social Media Bot</h2>
+                <div class="code-block">
+<pre>from camel.agents import ChatAgent
+from camel.toolkits import (
+    TwitterToolkit,
+    RedditToolkit,
+    LinkedInToolkit
+)
+
+# Initialize toolkits
+twitter = TwitterToolkit()
+reddit = RedditToolkit()
+linkedin = LinkedInToolkit()
+
+# Create agent with all toolkits
+agent = ChatAgent(
+    system_message="""You are a social media manager bot.
+    Monitor trends, create engaging content, and respond to mentions.""",
+    tools=[
+        *twitter.get_tools(),
+        *reddit.get_tools(),
+        *linkedin.get_tools(),
+    ]
+)
+
+# Task: Monitor and post
+task = """
+1. Check trending topics on Reddit about AI
+2. Create a summary tweet about the most interesting discussion
+3. Share a professional post on LinkedIn about AI trends
+"""
+
+response = agent.step(task)
+print(response.msgs[0].content)</pre>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>⚠️ Important Notes</h2>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>🔒 All toolkits require valid API credentials</li>
+                    <li>⚡ Rate limits vary by platform and account type</li>
+                    <li>📜 Follow each platform's automation policies</li>
+                    <li>🤖 Some platforms restrict bot activity</li>
+                    <li>💰 Some features may require paid API plans</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>📚 Additional Resources</h2>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li>💻 <a href="https://github.com/camel-ai/camel/blob/master/camel/toolkits/twitter_toolkit.py" target="_blank">Twitter Toolkit Source</a></li>
+                    <li>💻 <a href="https://github.com/camel-ai/camel/blob/master/camel/toolkits/reddit_toolkit.py" target="_blank">Reddit Toolkit Source</a></li>
+                    <li>💻 <a href="https://github.com/camel-ai/camel/blob/master/camel/toolkits/linkedin_toolkit.py" target="_blank">LinkedIn Toolkit Source</a></li>
+                    <li>🎯 <a href="https://github.com/camel-ai/camel/tree/master/examples/toolkits" target="_blank">Examples</a></li>
+                    <li>📖 <a href="https://docs.camel-ai.org" target="_blank">Documentation</a></li>
+                    <li>💬 <a href="https://discord.gg/CNcNpquyDc" target="_blank">Discord</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024-2025 CAMEL-AI. Open source and community-driven.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
